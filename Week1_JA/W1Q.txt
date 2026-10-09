@@ -1,0 +1,103 @@
+Q1. How do you decide whether a variable should be declared using let or const in JavaScript?
+
+Q2. What is the difference between == and === in JavScript ?
+
+==/loose equality
+compares value alone
+
+type coercion: 
+---------------
+
+console.log(5=="5")//true
+console.log(1==true)//true
+
+
+===/strict equality
+compares both value and datatype
+
+console.log(5==="5")//false
+console.log(1===true)//false
+
+ex:
+if(1==true){
+
+    console.log("Welcome")
+}
+
+Q3. How does trim() improve reliability in form input automation?
+
+Q4. what is the difference between replace() and replaceAll()? When would you use replaceAll() 
+in test Automation?
+
+replace()-change only the first match
+replaceAll()-changes every match in the string
+
+Q5. In JavaScript, why strings are immutable? What does it mean when we say 'modifying' a string?
+
+primitive : immutable(once created, value cannot be changed)
+string, number, undefined, null, boolean
+
+ex let name=test
+console.log(name) //test
+let fullname=name+leaf
+console.log(fullname) //testleaf
+
+Non-primitive: mutable(can change the value or data )
+
+arrays, objects and function
+let array=[1,3,4]
+ array=[1,3,4,5,6]
+
+Q6. In an dynamic string: 'Order ID: #12345-Confirmed'. Write a quick logic using String methods 
+(slice, split, or substring) to extract just the ID 12345?
+
+Q7. We have a JavaScript function isValid(data) that checks if a field is populated.
+if (data) { return true; }
+This is causing a bug where the number 0 is treated as invalid (empty), but 0 is a valid input for 
+our quantity field. How do you fix this validation logic?"
+
+function isValid(data){
+    if(data){
+        //return true  
+        return data!==null && data!==undefined && data!==""
+    }
+}
+
+isvalid(0)
+
+Q8. Consider a string let str = 'Testleaf'. I want to change the 'T' to 'Q'.
+How does JavaScript handle string storage in memory? Since strings are immutable, how do we 
+actually 'modify' them in our code?
+If I write str[0] = 'Q', what happens?
+
+let str='Testleaf'
+str[0]='Q'// it fails
+
+
+
+Q9. Take a sentence: 'Automation testing is exceptionally important'.
+   Write a loop that finds and returns the longest word in that sentence.
+
+
+Home Assignments:
+-----------------
+
+1) print login and the opentaps string from the URL?
+http://leaftaps.com/opentaps/control/login
+
+2) Write a JavaScript program to find the largest of three numbers.
+
+3) Write a JavaScript program to print numbers from 1 to 20, skipping numbers divisible by 5
+
+4) count the number of vowels in a string 'cucumber' //a e i o u
+
+5) "You have a continuous string of server logs:
+ERROR: 404 [Time: 12:00] | INFO: Login Success [Time: 12:01] | ERROR: 500 [Time: 12:05]
+Question: I need an array containing only the timestamps where an ERROR occurred. How would you 
+approach this?
+
+
+
+Week1 Feedback form
+https://forms.cloud.microsoft/r/ny9jaRvx4q
+
