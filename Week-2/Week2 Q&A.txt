@@ -1,0 +1,241 @@
+**1.Why does Playwright not suffer from the "Stale Element Exception" common in Selenium?**
+
+&nbsp;      Answer: This is due to Playwright's auto-waiting and actionability checks. Before performing an action, 
+Playwright checks if the element is attached, visible, stable (not animating), and "hit-targetable" (not covered by another element).
+ If the element shifts or re-renders, Playwright automatically retries the check until it passes or times out.
+
+
+
+**2. How do you handle a dropdown that doesn't use the standard <select> tag but is built with a <div> or <ul> (custom dropdown)?**
+
+Answer: You cannot use selectOption() for these. Instead, you must:
+
+Click the dropdown to expand the list.
+
+Wait for the list items (li or div) to become visible.
+
+Click the specific item using a text-based locator like page.getByRole('listitem').filter({ hasText: 'Option Name' }).
+
+
+
+**3.Your dropdown options load only after you type 3 characters in an input field. How do you automate this?**
+
+Answer:
+
+pressSequentially simulates real user typing by sending keyboard events for each character with delay. 
+It is useful for dynamic search dropdowns, debounce logic, and event-based validations.
+
+Use locator.pressSequentially() with a delay to simulate real typing.
+
+import { test, expect } from '@playwright/test';
+
+test('Dynamic dropdown after typing 3 characters', async ({ page }) => {
+
+  await page.goto('https://demoqa.com/auto-complete');
+
+  // Locate the auto complete input field
+  const inputBox = page.locator('#autoCompleteMultipleInput');
+
+  // Click inside input
+  await inputBox.click();
+
+  // Type 3 characters slowly to trigger dropdown
+  await inputBox.pressSequentially('Gre', { delay: 200 });
+
+  // Wait for dropdown option to appear
+  const option = page.locator('.auto-complete__option');
+
+  await expect(option).toBeVisible();
+
+  // Select first matching option
+  await option.first().click();
+
+});
+
+
+**4.A test fails only in CI but passes locally. What is your first step to debug it?**
+
+Answer: Enable Playwright Tracing. Traces capture a "screencast" of the test, network logs, 
+and DOM snapshots at every action, allowing you to visually replay exactly what happened in the CI environment
+
+
+**5. The "Infinite Scroll" Dropdown**
+
+A dropdown only loads the next 10 items when you scroll to the bottom. How do you select the 50th item?
+
+Answer:
+
+Click to open the dropdown.
+
+Use a while loop to check if the target item is visible.
+
+If not, use page.keyboard.press('PageDown') or locator.scrollIntoViewIfNeeded() on the last visible item.
+
+import { test, expect } from '@playwright/test';
+
+test('Select 50th item from infinite scroll dropdown', async ({ page }) => {
+
+  await page.goto('https://example.com'); // replace with actual app
+
+  // Step 1: Open dropdown
+  await page.locator('#dropdown').click();
+
+  const targetIndex = 50;
+  const dropdownOptions = page.locator('.dropdown-item');
+
+  let count = await dropdownOptions.count();
+
+  // Step 2: Scroll until 50th item is loaded
+  while (count < targetIndex) {
+    
+    // Scroll last visible item into view
+    await dropdownOptions.last().scrollIntoViewIfNeeded();
+
+    // Wait for new items to load (important for stability)
+    await page.waitForTimeout(1000);
+
+    count = await dropdownOptions.count();
+  }
+
+  // Step 3: Click 50th item (index starts from 0)
+  await dropdownOptions.nth(targetIndex - 1).click();
+
+});
+
+
+Alternative Method (Using PageDown Key)
+
+while (await dropdownOptions.count() < 50) {
+    await page.keyboard.press('PageDown');
+    await page.waitForTimeout(1000);
+}
+
+**6.What is the difference between a function login() {} and const login = function() {}? Specifically, how does hoisting affect them in a test script?**
+
+Answer: Function Declarations are hoisted, meaning you can call the function before it is defined in your code. 
+Function Expressions are not hoisted; if you try to call them before the line of definition, you will get a ReferenceError.
+
+
+**7."Write a reusable JavaScript function that takes a Playwright 'locator' as an input and returns 'true' if the element is both visible and enabled, otherwise returns 'false'.** 
+
+async function isReady(locator) {
+
+if {
+
+      return await locator.isVisible() && await locator.isEnabled();
+} 
+return false;
+}
+
+import { test, expect } from '@playwright/test';
+
+async function isReady(locator) {
+  if (!locator) return false;
+
+  const visible = await locator.isVisible();
+  const enabled = await locator.isEnabled();
+
+  return visible && enabled;
+}
+
+test('Check if button is ready before clicking', async ({ page }) => {
+
+  await page.goto('https://demoqa.com/buttons');
+
+  const button = page.locator('//button[text()="Click Me"]');
+
+  const ready = await isReady(button);
+
+  console.log('Is button ready?', ready);
+
+  if (ready) {
+    await button.click();
+  }
+
+  expect(ready).toBe(true);
+});
+
+-------------------------------------------------------------------------------------------------------
+async function isReady(locator) {
+  return await locator.isVisible() && await locator.isEnabled();
+}
+
+
+**8.: How do you select multiple options in a standard <select multiple> element?**
+
+Answer: Pass an array to .selectOption().
+
+Example: await page.locator('#colors').selectOption(\['Red', 'Green', 'Blue']);
+
+
+
+**9.Question: How would you write a loop to handle this efficiently without the test failing because the menu disappeared?**
+
+Answer: You must re-click the dropdown trigger inside the loop for every iteration.
+
+
+
+const itemsToSelect = \['Apple', 'Orange', 'Banana'];
+
+for (const item of itemsToSelect) {
+
+  await page.click('#dropdown-trigger'); // Re-open
+
+ await page.getByRole('option', { name: item }).click();
+
+}
+
+import { test, expect } from '@playwright/test';
+
+test('Select multiple items by reopening dropdown each time', async ({ page }) => {
+
+  await page.goto('https://demoqa.com/select-menu');
+
+  const itemsToSelect = ['Green', 'Blue', 'Black'];
+
+  for (const item of itemsToSelect) {
+
+    // Step 1: Re-open dropdown every time
+    await page.locator('#react-select-4-input').click();
+
+    // Step 2: Type item name (optional for filtering)
+    await page.keyboard.type(item);
+
+    // Step 3: Click matching option
+    await page.getByText(item, { exact: true }).click();
+
+    // Optional: Validate item is selected
+    await expect(page.locator('.css-12jo7m5')
+      .filter({ hasText: item }))
+      .toBeVisible();
+  }
+
+});
+
+10. what is Browser Installation Command — npx or npm?**
+
+**Answer:**
+
+* **Install Playwright with browsers:**
+
+ 
+  npx playwright install
+
+* This installs Chromium, Firefox, and WebKit browsers.
+* To install Playwright package:
+
+  npm install -D @playwright/test
+
+11. Explain about `async/await`**
+
+**Answer:**
+`async/await` is a cleaner way to handle Promises in JavaScript.
+
+* `async` keyword defines a function that returns a Promise.
+* `await` pauses execution until the Promise is resolved or rejected.
+
+
+async function getData() {
+  const response = await fetch(url);
+  console.log(response);
+}
