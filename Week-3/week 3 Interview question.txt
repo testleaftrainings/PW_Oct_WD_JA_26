@@ -1,0 +1,146 @@
+
+4. What happens if you use `selectOption()` on a custom dropdown built with `<div>` instead of `<select>`?**
+
+**Answer:**
+`selectOption()` only works on native `<select>` tags.
+ If you try to use it on custom dropdowns (e.g., `<div class="dropdown">`), it **won’t throw an error**, but it will **silently do nothing** or throw **"Element is not a <select>"** error.
+
+---
+
+5. How would you select a dropdown option that becomes visible only after hovering over another element?**
+
+await page.locator('#menu').hover(); // Hover to reveal dropdown
+await page.locator('.dropdown-item', { hasText: 'Option 1' }).click();
+```
+
+**Explanation:**
+Use `.hover()` first, then click the visible option.
+
+ex: Myntra
+import {test} from "@playwright/test"
+test(`hover in dropdown`,async ({page})=> {
+    await page.goto("https://www.myntra.com")
+    await page.hover('a[data-group="men"]');
+    await page.click('//a[text()="Sweaters"]')
+})
+---
+
+6. How do you select multiple options from a `<select multiple>` dropdown?**
+
+**Answer:**
+
+await page.selectOption('#fruits', [
+  { label: 'Apple' },
+  { value: 'banana' },
+  { index: 2 }
+]);
+
+**Explanation:**
+Pass an array of options to `selectOption()`. This works only if `<select> multiple attribute` is present.
+
+---
+
+7.How do you verify the selected option from a dropdown?**
+
+**Answer:**
+
+const value = await page.locator('select#country').inputValue();
+expect(value).toBe('IN');
+
+**Alternative (text):**
+
+const selectedText = await page.locator('select#country >> option:checked').textContent();
+expect(selectedText).toBe('India');
+
+---
+
+8.A dropdown option is hidden behind a scrollable container. How will you select it?**
+
+await page.locator('.dropdown-container').scrollIntoViewIfNeeded();
+await page.locator('.dropdown-item', { hasText: 'Hidden Option' }).click();
+
+Use `scrollIntoViewIfNeeded()` to ensure the option is in view before clicking it.
+
+EX:
+import {test} from '@playwright/test'
+test('clicking scrollable dropdown', async({page})=> {
+await page.goto("https://codepen.io/m________________d/pen/gOOMeQN");
+
+const farme=await page.frameLocator(`//iframe[@id="result"]`);
+await farme.locator(`//button[@data-toggle="dropdown"]`).click();
+await page.waitForTimeout(3000);
+await farme.locator(`//a[text()='What not']`).scrollIntoViewIfNeeded();
+await page.waitForTimeout(3000);
+await farme.locator(`//a[text()='What not']`).click();
+await page.waitForTimeout(2000)
+})---
+
+9. What’s the difference between using `.click()` on an option vs `selectOption()`? When should you choose one over the other?**
+
+**Answer:**
+
+* `.click()` is used for **custom dropdowns** (built with `<ul>/<div>`)
+* `selectOption()` is for **native `<select>`** only
+
+✅ Use `.click()` for modern styled dropdowns
+✅ Use `selectOption()` for traditional forms
+
+---
+
+
+10. How can you write a dynamic function to select any option from a custom dropdown?**
+
+**Answer:**
+
+```ts
+async function selectCustomDropdown(page, dropdownSelector, optionText) {
+  await page.locator(dropdownSelector).click();
+  await page.locator('.dropdown-item', { hasText: optionText }).click();
+}
+
+await selectCustomDropdown(page, '#createLeadForm_generalCountryGeoId', 'Canada');
+```
+
+**Explanation:**
+Reusable method improves test readability and works for dynamic options.
+
+---
+
+11. How do you select multiple options from a `<select multiple>` dropdown?**
+
+**Answer:**
+
+await page.selectOption('#fruits', [
+  { label: 'Apple' },
+  { value: 'banana' },
+  { index: 2 }
+]);
+
+**Explanation:**
+Pass an array of options to `selectOption()`. This works only if `<select> multiple attribute` is present.
+
+12.A dropdown option is hidden behind a scrollable container. How will you select it?**
+
+await page.locator('.dropdown-container').scrollIntoViewIfNeeded();
+await page.locator('.dropdown-item', { hasText: 'Hidden Option' }).click();
+
+Use `scrollIntoViewIfNeeded()` to ensure the option is in view before clicking it.
+
+EX:
+import {test} from '@playwright/test'
+test('clicking scrollable dropdown', async({page})=> {
+await page.goto("https://codepen.io/m________________d/pen/gOOMeQN");
+
+const farme=await page.frameLocator(`//iframe[@id="result"]`);
+await farme.locator(`//button[@data-toggle="dropdown"]`).click();
+await page.waitForTimeout(3000);
+await farme.locator(`//a[text()='What not']`).scrollIntoViewIfNeeded();
+await page.waitForTimeout(3000);
+await farme.locator(`//a[text()='What not']`).click();
+await page.waitForTimeout(2000)
+})---
+
+
+
+
+

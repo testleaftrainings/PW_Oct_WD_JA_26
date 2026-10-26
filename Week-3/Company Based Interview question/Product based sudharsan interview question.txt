@@ -1,0 +1,22 @@
+Consolidating list of questions 
+1) write a code to perform string anagrams 
+2) write a code to count frequency of character and remove the duplicates from them 
+3) write a code to find index of an array and ensure that index sums up to even number {2,6,7,8}
+4) write a program to depict coin change problem using brute force 
+5) reverse the orders of strings and capitalize  only 1st index ( clue : string builder ) 
+6) scenario based on automation 
+How will you ensure that others do not duplicate the xpath 
+7) code to find broken links 
+8) write api automation script to use request and response specification 
+9) all xpath was asked 
+10) how do you switch to farmes ?
+11) how do you handle multiple pop ups 
+12) write a Jenkins code to perform CI/CD for sonar cube
+[1:01 pm, 13/12/2025] +91 70223 68255: 13) difference between put post and patch with script assertions 
+14) explain automation framework 
+15) explain garbage collection using example
+16 .Explain Java collections 
+17 . how do resolve duplicate xpath 
+18 . How do you pass multiple scenarios 
+19 . How do you handle certificates 
+20 . Abstract class and private constructors

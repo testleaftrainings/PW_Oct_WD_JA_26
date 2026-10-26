@@ -1,0 +1,57 @@
+Round1:
+Introduce about yourself
+Difference between playwright, selenium and cypress.
+What is the fixture in playwright?
+Playwright Autowaiting mechanism 
+What are all the playwright locators
+Explain about getbyRole 
+Smoke vs sanity
+How do you manage test data in Playwright automation?
+Write a program - Reverse string,  Find duplicate in array. 
+How do you prioritize which tests to automate?
+How do you capture a screenshot, video and tracing? Are you using an inbuilt playwright report or integrated with other reports?
+What are all your test reports will contain? 
+Severity vs priority 
+RTM 
+Test strategy vs Test plan vs Test Artifacts 
+How do you store secrets (like credentials) securely?
+Agile methodology
+Sprint retrospective.
+The purpose of job change
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Round2:
+Introduce yourself.
+Explain about your framework. - From framework explanation received questions.
+Why did you call your framework as hybrid 
+Why do you want to separate your locator?
+Explain about agile ceremonies.
+How do you run specific test cases — individually, in order, or as part of smoke/regression tests?"
+Uploading files from the local desktop system.
+What are all the things the test report will include
+How will you choose the automation tool for your project?
+How you will handle exception in your playwright automation.
+Will the product backlog include the pending bugs also?
+How do you estimate effort for automation tasks?
+What challenges did you face while automating?
+Any Value added you have done in your project. 
+Can you describe how Playwright handles pre-test and post-test activities?
+What are all the root causes analyses and how you have done in your project.
+What are all the purposes you will use your AI in software testing. 
+What do you know about gen AI Have you done anything on that.
+If you receive a production issue what is the next action you will take.
+What are all the OOPs concepts you have used in your framework? 
+How do you perform debugging?
+Codings - Site given 
+Write a program for drop down selection. 
+Write a program File upload.
+Write a program for drag and drop. 
+write Xpath, CSS and playwright locator for the given element.
+Capture all text from a list and verify it’s sorted alphabetically.
+API testing and Database testing. 
+Have you automated black screen applications?
+What are all the assertions you have used in your framework? 
+Git-hub flow
+CI/CD-flow
+

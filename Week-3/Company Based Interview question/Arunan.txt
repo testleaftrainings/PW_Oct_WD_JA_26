@@ -1,0 +1,2 @@
+Write a program to reverse the string
+Write a program to Input string Welcome1234 and receive output string as Welcome10

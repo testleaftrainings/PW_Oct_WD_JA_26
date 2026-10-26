@@ -1,0 +1,16 @@
+Mphasis - 1st Round
+
+1) Self Introduction 
+2) Frame work explanation
+3) What contains in the Page folder & test folder
+4) Hooks in playwright & its definition?
+5) How to handle multi-select dropdowns in PW?
+6) Difference between locator().click() and click()
+7) Page fixtures
+8) Types of fixtures in PW
+9) What is Expect fixture
+10) Synchronization & async, await & promise concepts
+11) Storage State
+12) Scrum ceremonies
+13) Previous project explanation 
+

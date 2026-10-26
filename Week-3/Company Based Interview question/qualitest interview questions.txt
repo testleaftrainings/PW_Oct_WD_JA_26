@@ -1,0 +1,17 @@
+Hi team, last week i attended qualitest I will share questions 
+1. Self Introduction to talk about the experience and tools and technologies
+ 2. How to select value from a dropdown using playwright. Lets say the dropdown has 4 values and you have to select 3rd value from the dropdown
+ 3. There are 2 functions in playwright to enter a value in textbox, one is type and another one is fill. When to use what?
+ 4. Do we have inbuilt function to upload file in playwright?
+ 5. Give me an example when to fixtures in playwright?
+ 6. Practical exercise - Java program
+   Read input (eg: 12345) from console and reverse the value as 54321 in the console
+ 7. Write xpath for a webelement(See all offers) in amazon.in without using index / position() and identify uniquely
+
+     //span[contains(text(),'Smart kitchen storage')]/parent::h2/following-sibling::span/a[text()='See all offers']
+ 8. Difference between 503 and 504 status code
+ 9. Difference between 401 and 403 status code
+ 10. Explain the steps to push the code to GIT. Explain the Git commands to push the code into remote repository
+ 11. Have you worked in pipeline. Explain the steps to execute automation code using pipeline
+
+Hi team session is going to start kindly join ASAP

@@ -1,0 +1,27 @@
+Synechrone Company
+
+Write code for POM folder / file structure
+
+Difference between Playwright and Selenium
+
+Difference between Method Overloading and Method Overriding
+
+Logic to fetch values from a dropdown list
+
+API Status Codes
+
+Code to open a new browser tab
+
+Write logic to remove duplicates from a list
+
+Difference between List, Set, and Map
+
+Difference between Locator and $
+
+How do you execute tests in parallel?
+
+Logic to perform a calculation
+
+Explain Playwright folder structure
+
+What is Test Data?

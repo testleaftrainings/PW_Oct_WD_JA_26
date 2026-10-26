@@ -1,0 +1,73 @@
+If a test fails inside test.describe.serial() in Playwright, will the subsequent tests in that block continue to run or be skipped?
+What is the difference between git add and git commit?
+what is the difference between type() and fill()?
+what are the test management tools, you have used ?
+Why we will convert ts to js  and run?
+Write a function to debounce another function
+Create a deep clone of an object without JSON.stringify().
+Group elements of an array based on a property.
+Implement a memoization function.
+Write a function to implement curry()
+Write a function to bind a function without using Function.prototype.bind().
+Implement a basic event emitter class.
+Implement retry logic with exponential backoff.
+Write a mini LRU cache implementation.
+Day to day activities you do in playwright automation
+How we integrate git in playwright
+What commands do we give for git after integrated
+What is use of custom fixtures
+What's Serialisation and deserialization in api
+Do we use decorators in Typescript?
+For few methods async childTab(locator: string): Promise<void> {.  Promise<> we are using why For few other methods we do not use can you please say when to use promise??
+EX:
+async click(locator: string, name: string, type: string) {
+        await test.step(The ${name} ${type} clicked, async () => {
+            await this.page.waitForSelector(locator, { state: 'visible' });
+            await this.page.locator(locator).click();
+        });
+    }
+
+async getTextContent(locator: string): Promise<string | null | any> {
+        return await this.page.locator(locator).textContent();
+    }
+
+What type of exceptions we get in playwright?
+What version of playwright are you using?
+What do you do with traces
+How do you debug using traces
+What's use of tracing when testcase fails how to  we use trace to resolve it
+What's use of codegen
+How do you handle test data management and environment-specific configurations in a JavaScript-based automation framework?
+How to integrate playwright with CI Pipelines
+How to handle authentication tokens and CSRF tokens in playwright
+What could be the reasons when a login page loads manually but does not appear during automation?
+Give flow of your automation in api with playwright
+what are all page fixtures, we use in PW?
+How to implement webtable automation related scenarios using playwright there are rows and columns in webtable ? what are possible automation testcases?
+how can you set npx playwright test --env=qa how can we run the test in qa environment
+what is Pattern matching regex expression how to write these
+For name,phone numbers, etc fields how do we validate using regular expressions
+what is the difference between conventional iteration and recursion
+What's quality gate
+What's event looping
+Cicd jenkins pipelines do we run standalone or after deployment it runs which one?If your testcases failing there then what happens?
+In serial among 5 testcases if 3rd testcase gets failed, then next 2 in serial will it run or not???
+how do you validate Payment gateway ?
+How do we integrate our GitHub code into cicd pipeline
+What's sandbox environment?How do we verify status code, amount and those all?
+What type of testcases you have ensured which are most critical ones, what testing have you done in payment gateway integration
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
