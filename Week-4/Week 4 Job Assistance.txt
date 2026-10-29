@@ -1,0 +1,151 @@
+TypeScript Interview Questions
+
+2. Benefits of using TypeScript in automation projects
+
+Detects errors before runtime (type safety)
+
+Supports OOP principles (classes, interfaces)
+
+Autocomplete & IntelliSense for faster coding
+
+Makes frameworks like Playwright or Selenium more maintainable with strong typing for Page, Locator, etc.
+
+Easier refactoring and debugging
+
+3. What is type inference in TypeScript?
+
+When TypeScript automatically determines a variable’s type based on its assigned value.
+
+Example:
+
+let version = "1.0"; // inferred as string
+version = 2; // ❌ Error: Type 'number' not assignable to 'string'
+
+
+➡ You didn’t explicitly define string, but TypeScript inferred it.
+
+4. Explain the use of ? (optional parameter) and ! (non-null assertion)
+
+? — makes a parameter optional.
+
+! — tells TS that a value is not null or undefined.
+
+Example:
+
+function getUser(name?: string) {
+  console.log(name ?? "Guest");
+}
+
+let element = document.querySelector("#login")!;
+element.click(); // TS trusts it's not null
+
+
+
+6. Difference between any, unknown, and never
+Type	Description	Example
+any	Disables type checking	let val: any = 10; val = "Hi"
+unknown	Type-safe version of any (must check before using)	let val: unknown; if(typeof val==='string'){console.log(val.toUpperCase())}
+never	Represents a value that never occurs (like errors or infinite loops)	function throwErr(): never { throw new Error("Error!") }
+7. What is type assertion and how do you do it?
+
+TypeScript sometimes can’t infer the exact type, especially when:
+
+Working with any or unknown
+
+Accessing DOM elements
+
+Parsing JSON
+
+Handling API responses
+
+🔹 Two Ways to Do Type Assertion
+1️⃣ Angle Bracket Syntax
+let value: any = "Playwright";
+let length: number = (<string>value).length;
+
+
+❌ Not allowed in .tsx files (conflicts with JSX)
+
+2️⃣ as Keyword (Recommended ✅)
+let value: any = "Playwright";
+let length: number = (value as string).length;
+
+
+✔ Works everywhere
+✔ Most commonly used
+
+🟧 Alerts Handling (Dialogs) in Playwright
+8. How do you handle JavaScript alerts, confirms, and prompts in Playwright?
+
+Use the page.on('dialog') event to listen and respond to dialogs.
+
+Example:
+
+page.on('dialog', async (dialog) => {
+  console.log(dialog.message());
+  await dialog.accept("Input for prompt"); // or dialog.dismiss();
+});
+
+await page.click('#alertButton');
+
+9. What is page.on('dialog') and how do you use it?
+
+It registers an event listener that triggers when an alert/confirm/prompt appears.
+
+Example:
+
+page.on('dialog', async dialog => {
+  console.log("Dialog type:", dialog.type());
+  await dialog.accept();
+});
+
+10. How do you test alert confirmation logic in Playwright?
+
+You can simulate user action by accepting or dismissing the alert, then verifying page behavior.
+
+Example:
+
+page.on('dialog', dialog => dialog.accept());
+await page.click('#confirmButton');
+await expect(page.locator('#status')).toHaveText('Confirmed');
+
+11. How do you assert the alert text and accept or dismiss it?
+
+Example:
+
+page.on('dialog', async dialog => {
+  expect(dialog.message()).toBe('Are you sure?');
+  await dialog.dismiss(); // or accept()
+});
+await page.click('#confirmButton');
+
+🟩 Frames and iFrames in Playwright
+12. How do you interact with elements inside an iframe?
+
+Use either page.frame() or frameLocator().
+
+Example (frame):
+
+const frame = page.frame({ url: /leafground.com\/frame/ });
+await frame?.locator('#Click').click();
+
+
+Example (frameLocator):
+
+await page.frameLocator('iframe[name="firstFrame"]').locator('#Click').click();
+
+2. Difference between page.frame() and frameLocator()
+Method	Description	Use Case
+page.frame()	Returns a Frame object (JS handle)	Used when you know URL or name of frame
+frameLocator()	Returns a Locator (auto-handles waiting & scoping)	Easier for nested frame interactions
+3. How do you handle nested iframes?
+
+Use chained frameLocator() calls.
+
+Example:
+
+await page
+  .frameLocator('#outerFrame')
+  .frameLocator('#innerFrame')
+  .locator('#button')
+  .click();

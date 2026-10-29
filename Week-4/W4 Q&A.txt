@@ -1,0 +1,149 @@
+1. What is TypeScript and how is it different from JavaScript?
+
+TypeScript is a superset of JavaScript that adds static typing and type checking.
+
+It compiles down to plain JavaScript, which browsers can execute.
+
+Differences:
+
+Feature	JavaScript	TypeScript
+Typing	Dynamic	Static
+Compilation	Interpreted	Compiled to JS
+Error detection	Runtime	Compile-time
+File extension	.js	.ts
+
+✅ Example:
+
+let count: number = 10;  // TS checks type
+count = "ten"; // ❌ Error in TypeScript
+
+2. What is a union type and how do you use it?
+
+A union type allows a variable to have multiple possible types.
+
+Example:
+
+let data: string | number;
+data = "Hello";
+data = 123; // both allowed
+3. Nested Frames with Dynamic IDs
+
+Q:
+A legacy banking app uses nested iframes. The inner iframe’s ID is dynamic (e.g., `frame_882`).  
+How do you reliably click a button inside it without using the dynamic ID, and how do you avoid timeout if it loads slowly?
+
+A: 
+Use Playwright’s `frameLocator()` to reference iframes by stable selectors, not IDs. `frameLocator()` auto-waits for nested frames and elements before interaction.
+
+const outerFrame = page.frameLocator('iframe[data-test="transaction-container"]');
+const innerFrame = outerFrame.frameLocator('iframe');
+await innerFrame.getByRole('button', { name: 'Submit Transaction' }).click();
+
+Playwright’s auto-waiting prevents timeouts if the frame or elements load slowly.
+
+4. Parallel Tests with storageState
+
+Q:
+Test A runs as Admin, Test B as a standard user. Both reuse storageState to skip login. How do you ensure isolation?
+
+A:
+Create separate browser contexts for each user state:
+
+const adminContext = await browser.newContext({ storageState: 'adminState.json' });
+const userContext = await browser.newContext({ storageState: 'userState.json' });
+
+Avoid sharing the same storage file between parallel tests to prevent race conditions.
+
+5. Verify File Download and Check Size
+
+Q:
+A report is downloaded. How do you verify the download succeeded and confirm the file size?
+
+A:
+
+import fs from 'fs';
+
+const [download] = await Promise.all([
+  page.waitForEvent('download'),
+  page.click('#download-report-btn'),
+]);
+
+const filePath = './downloads/' + download.suggestedFilename();
+await download.saveAs(filePath);
+
+expect(fs.existsSync(filePath)).toBe(true);
+const stats = fs.statSync(filePath);
+expect(stats.size).toBeGreaterThan(0);
+
+This confirms the file exists and isn’t empty.
+
+6. Dialog Handling Timing
+
+Q:
+Will this code correctly handle dialogs?
+
+await page.getByRole('button').click();
+page.on('dialog', async dialog => {
+  console.log(dialog.message());
+  await dialog.accept('My Input Text');
+});
+
+A:
+No — the listener must be registered before the click:
+
+page.on('dialog', async dialog => {
+  console.log(dialog.message());
+  await dialog.accept('My Input Text');
+});
+await page.getByRole('button', { name: 'Confirm' }).click();
+
+7. Hidden File Upload Input
+
+Q:
+How do you upload a file if the <input type="file"> is hidden via CSS?
+
+A:
+Playwright can set files directly on hidden inputs:
+
+await page.locator('input[type="file"]').setInputFiles('tests/data/file.pdf');
+
+Or use a file chooser if triggered by a button:
+
+const chooser = await page.waitForEvent('filechooser');
+await page.getByRole('button', { name: 'Upload' }).click();
+await chooser.setFiles('tests/data/file.pdf');
+
+8 Retry Logic for Downloads
+
+Q:
+Sometimes downloads fail due to load — how do you implement retry logic without hiding real errors?
+
+A:
+Wrap download logic in a retry loop with limited tries and explicit logging:
+
+async function downloadWithRetry(page, maxRetry = 3) {
+  for (let attempt = 1; attempt <= maxRetry; attempt++) {
+    try {
+      const [download] = await Promise.all([
+        page.waitForEvent('download'),
+        page.click('#download'),
+      ]);
+      await download.saveAs(`./downloads/${download.suggestedFilename()}`);
+      return true;
+    } catch (err) {
+      console.warn(`Attempt ${attempt} failed: ${err.message}`);
+      if (attempt === maxRetry) throw err;
+      await page.waitForTimeout(1000);
+    }
+  }
+}
+
+9 How do you assert the alert text and accept or dismiss it?
+
+Example:
+
+page.on('dialog', async dialog => {
+  expect(dialog.message()).toBe('Are you sure?');
+  await dialog.dismiss(); // or accept()
+});
+await page.click('#confirmButton');
